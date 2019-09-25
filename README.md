@@ -16,3 +16,4 @@ The first version of this repository (made in July 2019) was created to keep the
 ## Table of contents
 
 - [Challenge 01 - NodeJS Concepts](https://github.com/lbcosta/rocketseat/tree/master/challenge01)
+- [Module 02 - Starting server of the GoBarber App](https://github.com/lbcosta/rocketseat/tree/master/module02)

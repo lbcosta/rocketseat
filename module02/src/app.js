@@ -14,15 +14,15 @@ class App {
     this.routes();
   }
 
-  // Registers middlewares
+  // Register middlewares
   middlewares() {
     this.server.use(express.json());
   }
 
-  // Registers routes
+  // Register routes
   routes() {
     this.server.use(routes);
   }
 }
 
-export default new App().server; // Exporting server of a instance of the Application
+export default new App().server; // Exporting server from a instance of the Application

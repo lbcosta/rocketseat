@@ -17,11 +17,12 @@
 yarn add sucrase nodemon -D
 ```
 
-2) Create a start script for development in your *package.json*
+2) Create a start script for development and a debug script in your *package.json*
 
 ```json
 "scripts": {
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "dev:debug": "nodemon --inspect src/server.js"
   }
 ```
   
@@ -30,10 +31,28 @@ yarn add sucrase nodemon -D
 ```json
 {
   "execMap": {
-    "js": "sucrase-node"
+    "js": "node -r sucrase/register"
   }
 }
 ```
+
+4) Your debugging file *(launch.json)* should look like this:
+
+```json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Launch Program",
+      "restart": true,
+      "protocol": "inspector"
+    }
+  ]
+}
+```
+5) To start debugging, run ```yarn dev:debug``` and start the VSCode debugger.
 
 ## Docker configuration
 After installing [Docker CE](https://github.com/docker/docker-ce), run the following command to create a postgreSQL container from *postgres* image:

@@ -1,7 +1,7 @@
 // Creating Application
 
-import express from "express";
-import routes from "./routes";
+import express from 'express';
+import routes from './routes';
 
 /*
  * Classes are a good way of naming and representing a feature

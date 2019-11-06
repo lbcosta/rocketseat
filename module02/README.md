@@ -153,4 +153,115 @@ trim_trailing_whitespace = true
 insert_final_newline = true
 ```
 
-## Sequelize configuration:
+## Sequelize configuration and project structure:
+
+1) Inside */src* folder, create a */config* folder with a *database.js* file. This file will contain our database configuration.
+
+2) Inside */src* folder, create a */database* folder with a */migrations* folder inside. The */database* folder will contain everything about the database.
+
+3) Create a */src/app* folder with two folders inside: */src/app/controllers* and */src/app/models*. Basically every logic of our application will be in the */app* folder.
+4) Install the sequelize and postgres dependencies:
+
+```bash
+yarn add sequelize pg pg-hstore
+```
+
+5) Install the sequelize-cli as a dev dependency:
+
+```bash
+yarn add -D sequelize-cli
+```
+
+6) Create a .sequelizerc file on the project root folder and fill it with the sequelize configuration content:
+
+```javascript
+const { resolve } = require('path');
+
+module.exports = {
+  config: resolve(__dirname, 'src', 'config', 'database.js'),
+  'models-path': resolve(__dirname, 'src', 'app', 'models'),
+  'migrations-path': resolve(__dirname, 'src', 'database', 'migrations'),
+  'seeders-path': resolve(__dirname, 'src', 'database', 'seeds'),
+};
+```
+
+7) Now fill the */src/config/database.js* file with the database configuration content:
+
+```javascript
+module.exports = {
+  dialect: 'postgres',
+  host: 'localhost',
+  port: 5433,
+  username: 'postgres',
+  password: 'docker',
+  database: 'gobarber',
+  define: {
+    timestamps: true, // columns created_at and updated_at
+    underscored: true, // tables and columns naming
+    underscoredAll: true,
+  },
+};
+```
+
+## First Migration
+
+1) Run the above command to create a migration file that will create a Users table
+
+```bash
+yarn sequelize migration:create --name=create-users
+```
+
+2) Fill the created file that is inside the */migrations* folder with the migration content:
+
+```javascript
+module.exports = {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.createTable('users', {
+      id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      email: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      password_hash: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      provider: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+        allowNull: false,
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+    });
+  },
+
+  down: queryInterface => {
+    return queryInterface.dropTable('users');
+  },
+};
+```
+
+3) Run the migration
+
+```bash
+yarn sequelize db:migrate
+```
+
+4) Check the database inside the docker container. It should have a table "users".

@@ -1,4 +1,4 @@
-# Module 02
+# Module 03
 
 ## Goals
 - Create a new (backend/server) application

@@ -3,6 +3,8 @@
 import express from 'express';
 import routes from './routes';
 
+import './database';
+
 /*
  * Classes are a good way of naming and representing a feature
  */

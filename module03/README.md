@@ -265,3 +265,59 @@ yarn sequelize db:migrate
 ```
 
 4) Check the database inside the docker container. It should have a table "users".
+
+
+## First Model
+
+1) Inside */src/app/models*, create a file called *User.js* with the following content:
+
+```javascript
+import Sequelize, { Model } from 'sequelize';
+
+class User extends Model {
+  static init(sequelize) {
+    super.init(
+      {
+        // Table columns (Avoid primary keys, foreing keys or even created_at and updated_at)
+        name: Sequelize.STRING,
+        email: Sequelize.STRING,
+        password_hash: Sequelize.STRING,
+        provider: Sequelize.BOOLEAN,
+      },
+      {
+        sequelize,
+      }
+    );
+  }
+}
+
+export default User;
+```
+
+## Model Loader
+
+1) Inside */src/database* create a file called *index.js*:
+
+```javascript
+import Sequelize from 'sequelize';
+
+import User from '../app/models/User';
+
+import databaseConfig from '../config/database';
+
+const models = [User];
+
+class Database {
+  constructor() {
+    this.init();
+  }
+
+  init() {
+    this.connection = new Sequelize(databaseConfig);
+
+    models.map(model => model.init(this.connection));
+  }
+}
+
+export default new Database();
+```

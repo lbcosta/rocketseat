@@ -76,7 +76,7 @@ function Cart({ cart, total, removeFromCart, updateAmount }) {
 
         <Total>
           <span>TOTAL</span>
-<strong>{total}</strong>
+          <strong>{total}</strong>
         </Total>
       </footer>
     </Container>

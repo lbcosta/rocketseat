@@ -33,3 +33,5 @@ export default combineReducers({
   cart,
 });
 ```
+
+Quando um dispatch é chamado, todos os reducers recebem as informações passadas
